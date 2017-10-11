@@ -17,8 +17,9 @@ public abstract class ApiCallBack<T extends BaseBean> implements Callback<T>{
     @Override
     public void onResponse(Response<T> response) {
         RNet.getInstance().hideLoadingDialog();
-//        Logger.e("headers:"+response.headers().toString()+"\nresponse:"+response.code()+ response.message());
+        Logger.e("headers:"+response.headers().toString()+"\nresponse:"+response.code()+ response.message());
         T body = response.body();
+//        Logger.e();
         if(response.code() == 200){
             if(body.getTypeStutue() == 0){//返回正常
                 onMyResponse(response);
@@ -32,7 +33,7 @@ public abstract class ApiCallBack<T extends BaseBean> implements Callback<T>{
         }else{
             String errorInfo = "请求内容出错：" + response.code() + " 错误信息：" + response.message();
             onMyFailure(new Throwable(errorInfo));
-//            Logger.e(body+"");
+            Logger.e(body+"");
         }
     }
 

@@ -1,8 +1,6 @@
 package com.bobo.bobodmeo.net;
 
-import com.bobo.bobodmeo.bean.BaseBean;
-import com.bobo.bobodmeo.bean.User;
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -16,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("/getBackgroundMusic")
-    Call<BaseBean<User>> getUserInfo(@Query("userId") String userId);
+    @GET("/v2/book/search")
+    Call<ResponseBody> getUserInfo(@Query("q") String searchCondition, @Query("start") int start, @Query("count") int count);
 
 }

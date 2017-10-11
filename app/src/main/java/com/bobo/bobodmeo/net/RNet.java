@@ -3,6 +3,8 @@ package com.bobo.bobodmeo.net;
 import android.app.Activity;
 import android.app.Dialog;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -24,9 +26,9 @@ public class RNet {
 
     private RNet() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://dev.iwhere.com:8010//bearbao-footmark/track/")
+                .baseUrl("https://api.douban.com")
                 .addConverterFactory(GsonConverterFactory.create())
-//                .client(getOkClient())
+                .client(getOkClient())
                 .build();
 
     }
@@ -66,7 +68,12 @@ public class RNet {
      * @return
      */
     private OkHttpClient getOkClient() {
-        okHttpClient = new OkHttpClient();
+        okHttpClient = new OkHttpClient.Builder()
+                        .addInterceptor(new LoggerInterceptor())
+                        .connectTimeout(30, TimeUnit.SECONDS)
+                        .readTimeout(30,TimeUnit.SECONDS)
+                        .retryOnConnectionFailure(true)
+                        .build();
         //设置拦截器
         return okHttpClient;
     }

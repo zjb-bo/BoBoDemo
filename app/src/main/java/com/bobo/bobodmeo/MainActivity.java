@@ -3,11 +3,13 @@ package com.bobo.bobodmeo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.bobo.bobodmeo.bean.BaseBean;
-import com.bobo.bobodmeo.bean.User;
-import com.bobo.bobodmeo.net.ApiCallBack;
 import com.bobo.bobodmeo.net.RNet;
+import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -30,14 +32,20 @@ public class MainActivity extends AppCompatActivity {
         RNet.getInstance()
                 .showLoadingDialog(this)
                 .getApiService()
-                .getUserInfo("123")
-                .enqueue(new ApiCallBack<BaseBean<User>>() {
+                .getUserInfo("量子力学", 0, 20)
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onMyResponse(Response<BaseBean<User>> response) {
-
+                    public void onResponse(Response<ResponseBody> response) {
+                        try {
+                            String s = new String(response.body().bytes());
+                            Logger.json(s);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+
                     @Override
-                    public void onMyFailure(Throwable t) {
+                    public void onFailure(Throwable t) {
 
                     }
                 });
