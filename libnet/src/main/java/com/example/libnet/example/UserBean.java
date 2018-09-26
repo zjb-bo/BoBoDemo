@@ -1,4 +1,6 @@
-package com.bobo.bobodmeo.bean;
+package com.example.libnet.example;
+
+import com.example.libnet.net.BaseBean;
 
 /**
  * Created by Zjb
@@ -7,7 +9,7 @@ package com.bobo.bobodmeo.bean;
  * 类描述：用户JsonBean
  */
 
-public class User{
+public class UserBean extends BaseBean {
 
 
     /**

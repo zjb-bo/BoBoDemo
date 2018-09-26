@@ -1,7 +1,10 @@
-package com.bobo.bobodmeo.net;
+package com.example.libnet.net;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.support.annotation.NonNull;
+
+import com.example.libnet.ui.BaseLoadingDialog;
+import com.example.libnet.ui.DefaultLoadingDialog;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,22 +14,21 @@ import retrofit2.Retrofit;
 
 /**
  * Created by Zjb
- * Company:iwhere chengdu technology
  * date: 2017/10/10
- * 类描述：
+ * 类描述： Retrofit 网络框架得请求类
+ *  T : ApiService
  */
 
 public class RNet {
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
-    private ApiService apiService;
     private static RNet rNet;
-    private Dialog loadingDialog;
+    private BaseLoadingDialog loadingDialog;
 
 
     private RNet() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.douban.com")
+                .baseUrl(NetConstantsConfig.NET_BASE_URL_ONLINE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getOkClient())
                 .build();
@@ -52,14 +54,12 @@ public class RNet {
      * 获取 ApiSerVice
      * @return
      */
-    public ApiService getApiService(){
+    public <T> T getApiService(@NonNull Class<T> cless){
         if (retrofit == null) {
-            throw new NullPointerException("retrofit == null ,RNet 初始化失败");
+            throw new NullPointerException("retrofit == null ,RNet init fail");
         }
-        if(apiService == null){
-            apiService = retrofit.create(ApiService.class);
-        }
-        return apiService;
+        //TODO: do not need create each time
+        return retrofit.create(cless);
     }
 
 
@@ -70,8 +70,8 @@ public class RNet {
     private OkHttpClient getOkClient() {
         okHttpClient = new OkHttpClient.Builder()
                         .addInterceptor(new LoggerInterceptor())
-                        .connectTimeout(30, TimeUnit.SECONDS)
-                        .readTimeout(30,TimeUnit.SECONDS)
+                        .connectTimeout(NetConstantsConfig.NET_CONNECT_TIME_SECONDS, TimeUnit.SECONDS)
+                        .readTimeout(NetConstantsConfig.NET_READ_TIME_SECONDS,TimeUnit.SECONDS)
                         .retryOnConnectionFailure(true)
                         .build();
         //设置拦截器
@@ -84,30 +84,34 @@ public class RNet {
      */
     public void setOkHttpClient(OkHttpClient okHttpClient){
         if(okHttpClient == null){
-            throw new NullPointerException("setOkHttpClient不能为空");
+            throw new NullPointerException("okHttpClient can not null");
         }else {
             this.okHttpClient = okHttpClient;
         }
     }
 
-    public RNet showLoadingDialog(Activity activity){
+    //show loading ui
+    public RNet showLoadingDialog(@NonNull Activity activity){
         if(!activity.isDestroyed()){
             if(loadingDialog == null){
-                loadingDialog = new LoadingDialog(activity);
+                loadingDialog = new DefaultLoadingDialog(activity);
             }
             loadingDialog.show();
         }
         return this;
     }
 
-    public void hideLoadingDialog(){
-        if(loadingDialog != null && loadingDialog.isShowing()){
-            loadingDialog.dismiss();
-        }
+    /**
+     * if you want custom loading ui please see {@link BaseLoadingDialog}
+     * @param baseLoadingDialog
+     */
+    public void setLoadingDialog(@NonNull BaseLoadingDialog baseLoadingDialog){
+        loadingDialog = baseLoadingDialog;
     }
 
-    public void release(){
-        if(loadingDialog != null){
+    //hide loading ui and release
+    public void hideLoadingDialog(){
+        if(loadingDialog != null && loadingDialog.isShowing()){
             loadingDialog.cancel();
             loadingDialog = null;
         }

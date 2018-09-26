@@ -7,12 +7,11 @@ import com.orhanobut.logger.Logger;
 
 /**
  * Created by Zjb
- * Company:iwhere chengdu technology
  * date: 2017/10/10
  * 类描述：
  */
 
-public class MyApp extends Application{
+public class App extends Application{
 
     @Override
     public void onCreate() {

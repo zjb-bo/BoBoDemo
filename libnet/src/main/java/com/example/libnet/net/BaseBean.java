@@ -1,9 +1,7 @@
-package com.bobo.bobodmeo.bean;
+package com.example.libnet.net;
 
 /**
  * Created by Zjb
- * Company:iwhere chengdu technology
- * date: 2017/10/10
  * 类描述：所有的Bean的 共同的部分  与服务器规定，可以修改 但是该类需要存在
  * {server_status:200,info:"ok"}
  */
@@ -46,5 +44,15 @@ public class BaseBean<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseBean{" +
+                "server_status=" + server_status +
+                ", info='" + info + '\'' +
+                ", typeStutue=" + typeStutue +
+                ", data=" + data +
+                '}';
     }
 }

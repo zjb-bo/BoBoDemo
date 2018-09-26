@@ -1,22 +1,23 @@
-package com.bobo.bobodmeo.net;
+package com.example.libnet.ui;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.bobo.bobodmeo.R;
+import com.example.libnet.R;
+
 
 /**
  * Created by Zjb
- * Company:iwhere chengdu technology
  * date: 2017/10/10
- * 类描述：
+ * 类描述：默认的 网络加载 dialog
+ * if you want custom please see {@link BaseLoadingDialog}
  */
 
-public class LoadingDialog extends Dialog {
-    public LoadingDialog(Context context) {
+public class DefaultLoadingDialog extends BaseLoadingDialog {
+
+    public DefaultLoadingDialog(Context context) {
         super(context, R.style.LoadingDialog);
     }
 

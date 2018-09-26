@@ -5,7 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/BoBoDemo.iml" filepath="$PROJECT_DIR$/BoBoDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/BoBoDmeo.iml" filepath="$PROJECT_DIR$/BoBoDmeo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libcommon/libcommon.iml" filepath="$PROJECT_DIR$/libcommon/libcommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libnet/libnet.iml" filepath="$PROJECT_DIR$/libnet/libnet.iml" />
     </modules>
   </component>
 </project>
