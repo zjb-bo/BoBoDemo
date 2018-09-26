@@ -27,25 +27,8 @@ public class MainActivity extends AppCompatActivity{
         //request BusinessApiService for search book;
         RNet.getInstance()
                 .showLoadingDialog(this)
-                .getApiService(BusinessApiService.class)
+                .getApiService()
                 .getUserInfo("百年孤独", 0, 2)
-                .enqueue(new ApiCallBack<UserBean>() {
-                    @Override
-                    public void onMyResponse(BaseBean<UserBean> baseBean) {
-
-                    }
-
-                    @Override
-                    public void onMyFailure(Throwable t) {
-
-                    }
-                });
-
-        //request LoginService for login;
-        RNet.getInstance()
-                .showLoadingDialog(this)
-                .getApiService(LoginApiService.class)
-                .login("zjb", "****", 151131)
                 .enqueue(new ApiCallBack<UserBean>() {
                     @Override
                     public void onMyResponse(BaseBean<UserBean> baseBean) {

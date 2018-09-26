@@ -8,6 +8,15 @@ import com.example.libnet.net.ApiCallBack;
 import com.example.libnet.net.BaseBean;
 import com.example.libnet.net.RNet;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
+import rx.Observer;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by Zjb
  * date: 2017/10/10
@@ -26,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadData() {
         RNet.getInstance()
                 .showLoadingDialog(this)
-                .getApiService(BusinessApiService.class)
+                .getApiService()
                 .getUserInfo("量子力学", 0, 2)
                 .enqueue(new ApiCallBack<UserBean>() {
                     @Override
@@ -39,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        RNet.getInstance()
+                .showLoadingDialog(this)
+                .getApiService()
+                .getRxUserInfo("量子力学", 0, 2)
+                .subscribeOn(Schedulers.io())//请求数据的事件发生在io线程
+                .observeOn(AndroidSchedulers.mainThread())//请求完成后在主线程更显UI
+                .subscribe();
 
     }
 

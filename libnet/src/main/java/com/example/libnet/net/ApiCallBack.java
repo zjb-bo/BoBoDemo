@@ -9,6 +9,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -16,12 +17,13 @@ import retrofit2.Response;
  * Created by Zjb
  * date: 2017/10/10
  * 类描述：所有的回调信息，方便返回结果 统一处理
+ * 仅仅只是使用retrofit 不使用 Rxjava 的时候用到
  */
 
 public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
 
     @Override
-    final public void onResponse(Response<ResponseBody> response) {
+    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         RNet.getInstance().hideLoadingDialog();
         Logger.d("headers:"+response.headers().toString()+"\nresponse:"+response.code()+ response.message());
         ResponseBody result = response.body();
@@ -41,11 +43,12 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
     }
 
     @Override
-    final public void onFailure(Throwable t) {
+    public void onFailure(Call<ResponseBody> call, Throwable t) {
         onMyFailure(t);
         RNet.getInstance().hideLoadingDialog(); //close loading ui
         handleNetError(t); //handle net Error Msg
     }
+
 
     private void handleNetError(Throwable e) {
         if (e instanceof UnknownHostException) {

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * Created by Zjb
@@ -24,11 +25,13 @@ public class RNet {
     private OkHttpClient okHttpClient;
     private static RNet rNet;
     private BaseLoadingDialog loadingDialog;
+    private RetrofitService retrofitService;
 
 
     private RNet() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(NetConstantsConfig.NET_BASE_URL_ONLINE)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getOkClient())
                 .build();
@@ -54,12 +57,14 @@ public class RNet {
      * 获取 ApiSerVice
      * @return
      */
-    public <T> T getApiService(@NonNull Class<T> cless){
+    public RetrofitService getApiService(){
         if (retrofit == null) {
             throw new NullPointerException("retrofit == null ,RNet init fail");
         }
-        //TODO: do not need create each time
-        return retrofit.create(cless);
+        if(retrofitService == null){
+            retrofitService = retrofit.create(RetrofitService.class);
+        }
+        return retrofitService;
     }
 
 
