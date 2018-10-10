@@ -1,7 +1,5 @@
 package com.example.libnet.example;
 
-import com.example.libnet.net.BaseBean;
-
 /**
  * Created by Zjb
  * Company:iwhere chengdu technology
@@ -9,12 +7,12 @@ import com.example.libnet.net.BaseBean;
  * 类描述：用户JsonBean
  */
 
-public class UserBean extends BaseBean {
+public class UserBean {
 
 
     /**
      * id : 59ccd68d9658d94aef83a38a
-     * musicCode : 01
+         * musicCode : 01
      * musicUrl : http://qiniu.iwhere.com/track/backgroundMusic/backgroundmusic1.mp3
      */
 

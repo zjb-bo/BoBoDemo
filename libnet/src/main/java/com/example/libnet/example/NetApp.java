@@ -1,4 +1,4 @@
-package com.bobo.bobodmeo.app;
+package com.example.libnet.example;
 
 import android.app.Application;
 
@@ -11,8 +11,8 @@ import com.orhanobut.logger.Logger;
  * 类描述：
  */
 
-public class App extends Application{
-    private static App app;
+public class NetApp extends Application{
+    private static NetApp app;
 
     @Override
     public void onCreate() {
@@ -21,7 +21,7 @@ public class App extends Application{
         initLogger();
     }
 
-    public static App getInstance(){
+    public static NetApp getApplication(){
         return app;
     }
 

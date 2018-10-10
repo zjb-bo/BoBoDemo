@@ -20,7 +20,7 @@ import retrofit2.Response;
  * 仅仅只是使用retrofit 不使用 Rxjava 的时候用到
  */
 
-public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
+public abstract class ApiCallBack<T> implements Callback<ResponseBody>, HandleNetResult{
 
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -31,7 +31,7 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
         try {
             tBaseBean  = new Gson().fromJson(result.string(), tBaseBean.getClass());
             if(response.code() == 200){
-                handleSubjectResult(tBaseBean);
+                handleNetLogicResult(tBaseBean);
             }else{
                 handleServerError(response, tBaseBean);
             }
@@ -49,8 +49,26 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
         handleNetError(t); //handle net Error Msg
     }
 
+    /**
+     * 统一处理业务逻辑的返回结果
+     * @param body 返回体
+     */
+    @Override
+    public void handleNetLogicResult(BaseBean body) {
+        if(body.getTypeStutue() == 0){//返回正常
+            onMyResponse(body);
+        }
+        else if(body.getTypeStutue() == -1){//用户登录过期
 
-    private void handleNetError(Throwable e) {
+        }else if(body.getTypeStutue() == -2){//用户余额不足...
+
+        }else if(body.getTypeStutue() == -111){//默认值，没有该字段，正常返回
+            onMyResponse(body);
+        }
+    }
+
+    @Override
+    public void handleNetError(Throwable e) {
         if (e instanceof UnknownHostException) {
             Logger.e("请打开网络");
         } else if (e instanceof SocketTimeoutException) {
@@ -66,23 +84,6 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBody>{
     public abstract void onMyResponse(BaseBean<T> baseBean);
     public abstract void onMyFailure(Throwable t);
 
-
-    /**
-     * 统一处理业务逻辑的返回结果
-     * @param body 返回体
-     */
-    private void handleSubjectResult(BaseBean<T> body) {
-        if(body.getTypeStutue() == 0){//返回正常
-            onMyResponse(body);
-        }
-        else if(body.getTypeStutue() == -1){//用户登录过期
-
-        }else if(body.getTypeStutue() == -2){//用户余额不足...
-
-        }else if(body.getTypeStutue() == -111){//默认值，没有该字段，正常返回
-            onMyResponse(body);
-        }
-    }
 
     /**
      * 处理服务器得Error

@@ -46,7 +46,7 @@ public class BaseLoadingDialog extends Dialog{
     protected void hideLoadingDialog(){
         if(mContext != null && isShowing()){
             cancel();
-            //TODO: 如果同一个retry中,则不会多次显示,只显示一次
+            //notice: 如果同一个retry中,则不会多次显示,只显示第一次
             mContext = null;
         }
     }

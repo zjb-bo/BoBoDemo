@@ -25,21 +25,6 @@ public class MainActivity extends AppCompatActivity{
 
     private void loadData() {
         //request BusinessApiService for search book;
-        RNet.getInstance()
-                .showLoadingDialog(this)
-                .getApiService()
-                .getUserInfo("百年孤独", 0, 2)
-                .enqueue(new ApiCallBack<UserBean>() {
-                    @Override
-                    public void onMyResponse(BaseBean<UserBean> baseBean) {
-
-                    }
-
-                    @Override
-                    public void onMyFailure(Throwable t) {
-
-                    }
-                });
     }
 
 

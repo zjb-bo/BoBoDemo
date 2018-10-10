@@ -1,4 +1,7 @@
-package com.example.libnet.net;
+package com.bobo.bobodmeo.net;
+
+import com.example.libnet.net.BaseBean;
+import com.bobo.bobodmeo.bean.UserBeanMain;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,6 +24,6 @@ public interface RetrofitService {
     Call<ResponseBody> getUserInfo(@Query("q") String searchCondition, @Query("start") int start, @Query("count") int count);
 
     @GET("/v2/book/search")
-    Observable<ResponseBody> getRxUserInfo(@Query("q") String searchCondition, @Query("start") int start, @Query("count") int count);
+    Observable<BaseBean<UserBeanMain>> getRxUserInfo(@Query("q") String searchCondition, @Query("start") int start, @Query("count") int count);
 
 }

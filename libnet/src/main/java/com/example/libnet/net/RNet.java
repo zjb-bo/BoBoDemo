@@ -9,9 +9,9 @@ import com.example.libnet.ui.DefaultLoadingDialog;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Zjb
@@ -25,7 +25,6 @@ public class RNet {
     private OkHttpClient okHttpClient;
     private static RNet rNet;
     private BaseLoadingDialog loadingDialog;
-    private RetrofitService retrofitService;
 
 
     private RNet() {
@@ -53,18 +52,8 @@ public class RNet {
         return rNet;
     }
 
-    /**
-     * 获取 ApiSerVice
-     * @return
-     */
-    public RetrofitService getApiService(){
-        if (retrofit == null) {
-            throw new NullPointerException("retrofit == null ,RNet init fail");
-        }
-        if(retrofitService == null){
-            retrofitService = retrofit.create(RetrofitService.class);
-        }
-        return retrofitService;
+    public Retrofit getRetrofit(){
+        return retrofit;
     }
 
 
@@ -101,7 +90,9 @@ public class RNet {
             if(loadingDialog == null){
                 loadingDialog = new DefaultLoadingDialog(activity);
             }
-            loadingDialog.show();
+            if(!loadingDialog.isShowing()){
+                loadingDialog.show();
+            }
         }
         return this;
     }
